@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+Будет удалено .gitignore
+Будет удалено .idea/
+venv
+test.py
+Будет удалено test.py
+Будет удалено venv/
+/Снимок экрана от 2017-05-08 20-17-23.png
+Будет удалено "\320\241\320\275\320\270\320\274\320\276\320\272 \321\215\320\272\321\200\320\260\320\275\320\260 \320\276\321\202 2017-05-08 20-17-23.png"
