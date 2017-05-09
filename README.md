@@ -8,8 +8,9 @@ It is better use virtual enviroments
 ## How to use
 ```python3 image_resize.py --help```
 will show options.
-You should use --scale or --width and --height
-Here is full description
+You should use --scale or --width and --height.
+
+All use cases was described in 
 https://devman.org/challenges/12/
 
 # Project Goals
