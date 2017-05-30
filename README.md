@@ -8,10 +8,21 @@ It is better use virtual enviroments
 ## How to use
 ```python3 image_resize.py --help```
 will show options.
-You should use --scale or --width and --height.
+You should use --scale or --width and/or --height.
 
-All use cases was described in 
-https://devman.org/challenges/12/
+Use cases by using tree options:
+
+scale|width|height|result
+-----|-----|------|------
++|+|+|'You have scale option with width and/or height option' end exit
++|+|-|'You should not use scale' and exit
++|-|+|'You should not use scale' and exit
++|-|-|The input image will be resized by scale and saved in output
+-|+|-|The input image will be resized and saved in output. Output proportion saved
+-|-|+|The input image will be resized and saved in output. Output proportion saved
+-|+|+|The input image will be resized and saved in output. If output proportion changed warning will appear
+
+If no output parameter - output file will be saved in input/file__WidthxHeight.ext
 
 # Project Goals
 
