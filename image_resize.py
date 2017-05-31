@@ -18,32 +18,39 @@ def get_args():
     return parser.parse_args()
 
 
+def validate_parameters(width, height, scale):
+    if width is not None and height is not None and scale is not None:
+        print('You have scale option with width and/or height option')
+        sys.exit(1)
+    elif width is None and height is None and scale is None:
+        print('You must use scale or width and height option')
+        sys.exit(1)
+    elif width is not None and scale is not None:
+        print('You should not use scale')
+        sys.exit(1)
+    elif scale is not None:
+        print('You should not use scale')
+        sys.exit(1)
+
+
+def _check_proportion(image_original_width, image_original_height, image_new_width, image_new_height):
+    original_proportion = image_original_width / image_original_height
+    new_proportion = image_new_width / image_new_height
+    if original_proportion != new_proportion:
+        print('Warning image proportions will break')
+
+
 def get_width_and_height(width, height, scale):
     image_original_width, image_original_height = get_image_size(args)
     if width is not None and height is not None:
-        if scale is not None:
-            print('You have scale option with width and/or height option')
-            sys.exit(1)
-        original_proportion = image_original_width / image_original_height
-        new_proportion = width / height
-        if original_proportion != new_proportion:
-            print('Warning image proportions will break')
+        _check_proportion(image_original_width, image_original_height, width, height)
         return width, height
     elif width is None and height is None:
-        if scale is None:
-            print('You must use scale or width and height option')
-            sys.exit(1)
         return int(image_original_width * scale), int(image_original_height * scale)
     elif width is not None:
-        if scale is not None:
-            print('You should not use scale')
-            sys.exit(1)
         calculated_scale = width / image_original_width
         return width, int(image_original_height * calculated_scale)
     else:
-        if scale is not None:
-            print('You should not use scale')
-            sys.exit(1)
         calculated_scale = height / image_original_height
         return int(image_original_width * calculated_scale), height
 
@@ -73,13 +80,12 @@ def check_input_file_existence(input_file_name):
 
 if __name__ == '__main__':
     args = get_args()
-    
     args_width = args.width
     args_height = args.height
     args_scale = args.scale
     input_file_name = args.input
     check_input_file_existence(input_file_name)
-    
+    validate_parameters(args_width, args_height, args_scale)
     width, height = get_width_and_height(args_width, args_height, args_scale)
     output_file_name = args.output if args.output is not None else get_default_output_file_name(
         input_file_name, width, height)
