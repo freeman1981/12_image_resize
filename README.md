@@ -12,17 +12,35 @@ You should use --scale or --width and/or --height.
 
 Use cases by using tree options:
 
+WRONG PARAMETER COMBINATIONS
+
+scale|width|height
+-----|-----|------
++|+|+
++|+|-
++|-|+
+
+RIGHT PARAMETER COMBINATIONS
+
 scale|width|height|result
 -----|-----|------|------
-+|+|+|'You have scale option with width and/or height option' end exit
-+|+|-|'You should not use scale' and exit
-+|-|+|'You should not use scale' and exit
 +|-|-|The input image will be resized by scale and saved in output
 -|+|-|The input image will be resized and saved in output. Output proportion saved
 -|-|+|The input image will be resized and saved in output. Output proportion saved
 -|+|+|The input image will be resized and saved in output. If output proportion changed warning will appear
 
-If no output parameter - output file will be saved in input/file__WidthxHeight.ext
+About output file name:
+
+Assume we have image foo.png with size 100x100
+
+```python3 image_resize.py foo.png --scale 0.1```
+ 
+The image will appear with file name foo__10x10.png in same directory which foo.png
+ 
+```python3 image_resize.py foo.png --width 5 --height 10```
+ 
+The waring about proportion will show and image will appear with file name foo__5x10.png in same directory which foo.png
+
 
 # Project Goals
 
