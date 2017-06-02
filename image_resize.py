@@ -60,12 +60,12 @@ if __name__ == '__main__':
     input_file_name = args.input
     if not os.path.exists(input_file_name):
         sys.exit('File {} does not exists'.format(input_file_name))
-    parameter_combination_error = get_parameter_combination_error(args.wigth, args.height, args.scale)
+    parameter_combination_error = get_parameter_combination_error(args.width, args.height, args.scale)
     if parameter_combination_error is not None:
         sys.exit(parameter_combination_error)
     original_image = pillow_open(input_file_name)
     width, height = get_width_and_height(
-        original_image.width, original_image.height, args.wigth, args.height, args.scale)
+        original_image.width, original_image.height, args.width, args.height, args.scale)
     show_proportion_warning_if_necessary(original_image.width, original_image.height, width, height)
     output_file_name = args.output if args.output is not None else get_default_output_file_name(
         input_file_name, width, height)
