@@ -4,10 +4,6 @@ import argparse
 from PIL.Image import open as pillow_open
 
 
-class ResizeException(Exception):
-    pass
-
-
 def get_args():
     parser = argparse.ArgumentParser(description='Resize image')
     parser.add_argument('input', type=str, help='input image name')
