@@ -27,20 +27,16 @@ def get_parameter_combination_error(width, height, scale):
         return None
 
 
-def get_check_proportion_warning(image_original_width, image_original_height, image_new_width, image_new_height):
+def show_proportion_warning_if_necessary(image_original_width, image_original_height,
+                                         image_new_width, image_new_height):
     original_proportion = image_original_width / image_original_height
     new_proportion = image_new_width / image_new_height
     if original_proportion != new_proportion:
-        return 'Warning image proportions will break'
-    return None
+        print('Warning image proportions will break')
 
 
-def get_width_and_height(width, height, scale):
-    image_original_width, image_original_height = get_image_size(args)
+def get_width_and_height(image_original_width, image_original_height, width, height, scale):
     if width is not None and height is not None:
-        proportion_warning = get_check_proportion_warning(image_original_width, image_original_height, width, height)
-        if proportion_warning is not None:
-            print(proportion_warning)
         return width, height
     elif width is None and height is None:
         return int(image_original_width * scale), int(image_original_height * scale)
@@ -59,29 +55,20 @@ def get_default_output_file_name(input_file_name, image_width, image_height):
     )
 
 
-def get_resized_image(input_file_name, width, height):
-    with pillow_open(input_file_name) as f:
-        return f.resize((width, height))
-
-
-def get_image_size(args):
-    with pillow_open(args.input) as f:
-        return f.width, f.height
-
-
 if __name__ == '__main__':
     args = get_args()
-    args_width = args.width
-    args_height = args.height
-    args_scale = args.scale
     input_file_name = args.input
     if not os.path.exists(input_file_name):
         sys.exit('File {} does not exists'.format(input_file_name))
-    parameter_combination_error = get_parameter_combination_error(args_width, args_height, args_scale)
+    parameter_combination_error = get_parameter_combination_error(args.wigth, args.height, args.scale)
     if parameter_combination_error is not None:
         sys.exit(parameter_combination_error)
-    width, height = get_width_and_height(args_width, args_height, args_scale)
+    original_image = pillow_open(input_file_name)
+    width, height = get_width_and_height(
+        original_image.width, original_image.height, args.wigth, args.height, args.scale)
+    show_proportion_warning_if_necessary(original_image.width, original_image.height, width, height)
     output_file_name = args.output if args.output is not None else get_default_output_file_name(
         input_file_name, width, height)
-    resized_image = get_resized_image(input_file_name, width, height)
+    resized_image = original_image.resize((width, height))
+    original_image.close()
     resized_image.save(output_file_name)
